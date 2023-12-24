@@ -1,2 +1,2 @@
-# RoboCore-Scrapper
-Um scrapper da RoboCore para obter informações de robôs e eventos
+# RoboCore-Scraper
+Um scraper da RoboCore para obter informações de robôs e eventos
