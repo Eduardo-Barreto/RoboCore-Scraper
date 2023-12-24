@@ -16,3 +16,11 @@ class TestHistory(unittest.TestCase):
         self.assertIn("team", data)
         self.assertIn("category", data)
         self.assertIn("events", data)
+
+    def test_get_history_not_found(self):
+        response = self.app.get("/history/0")
+        data = response.get_json()
+
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("error", data)
+        self.assertIn("status_code", data)

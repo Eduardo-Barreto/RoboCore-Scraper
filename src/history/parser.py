@@ -3,21 +3,26 @@ from typing import List
 from history.models.event import Event
 from history.models.match import Match
 from history.models.robot import Robot
+import logging
 
 
 def parse_robot_data(soup: BeautifulSoup, robot_id: str) -> Robot:
-    robot_name = soup.find("h2").text.strip().replace("score history", "")
-    robot_team = soup.find("p").text.strip()
-    robot_category = soup.find("p", style="color: gray;").text.strip()
+    try:
+        robot_name = soup.find("h2").text.strip().replace("score history", "")
+        robot_team = soup.find("p").text.strip()
+        robot_category = soup.find("p", style="color: gray;").text.strip()
 
-    robot = Robot(robot_id, robot_name, robot_team, robot_category, [])
-    events = soup.find_all("div", class_="panel panel-default")
+        robot = Robot(robot_id, robot_name, robot_team, robot_category, [])
+        events = soup.find_all("div", class_="panel panel-default")
 
-    for event in events:
-        parsed_event = parse_event_data(event, robot_name)
-        robot.events.append(parsed_event)
+        for event in events:
+            parsed_event = parse_event_data(event, robot_name)
+            robot.events.append(parsed_event)
 
-    return robot
+        return robot
+    except AttributeError as e:
+        logging.error(f"An error occurred while parsing robot data: {e}")
+        return Robot(robot_id, "N/A", "N/A", "N/A", [])
 
 
 def parse_event_data(event: BeautifulSoup, robot_name: str) -> Event:
