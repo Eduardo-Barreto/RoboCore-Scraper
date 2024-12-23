@@ -21,7 +21,6 @@ def fetch_event_data(event_id: str, category_id: str) -> BeautifulSoup:
 
     soup = BeautifulSoup(response.text, "html.parser")
 
-    # Remove comments and unwanted tags
     comments = soup.find_all(string=lambda text: isinstance(text, Comment))
     for comment in comments:
         comment.extract()

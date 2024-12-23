@@ -58,7 +58,6 @@ def parse_brackets(soup: BeautifulSoup, event_id: str, category_id: str) -> dict
     try:
         main_table = soup.find("table", {"id": "tblBracket"})
         match_links = main_table.find_all("a", {"data-src": True})
-        # remove o primeiro link
         match_links.pop(0)
 
         matches = []
@@ -123,11 +122,11 @@ def parse_match_details(
 
     return {
         "winner": {
-            "name": team_names[winner_index],
+            "team": team_names[winner_index],
             "robot": team_robots[winner_index],
         },
         "loser": {
-            "name": team_names[1 - winner_index],
+            "team": team_names[1 - winner_index],
             "robot": team_robots[1 - winner_index],
         },
     }
