@@ -12,7 +12,13 @@ def parse_robot_data(soup: BeautifulSoup, robot_id: str) -> Robot:
         robot_team = soup.find("p").text.strip()
         robot_category = soup.find("p", style="color: gray;").text.strip()
 
-        robot = Robot(robot_id, robot_name, robot_team, robot_category, [])
+        robot = Robot(
+            robot_id.strip(),
+            robot_name.strip(),
+            robot_team.strip(),
+            robot_category.strip(),
+            [],
+        )
         events = soup.find_all("div", class_="panel panel-default")
 
         for event in events:
@@ -34,7 +40,13 @@ def parse_event_data(event: BeautifulSoup, robot_name: str) -> Event:
     event_end_date = event_end_date.strip("\t")
 
     matches = parse_matches(event, robot_name)
-    return Event(event_name, event_location, event_start_date, event_end_date, matches)
+    return Event(
+        event_name.strip(),
+        event_location.strip(),
+        event_start_date.strip(),
+        event_end_date.strip(),
+        matches
+    )
 
 
 def parse_matches(event: BeautifulSoup, robot_name: str) -> List[Match]:
@@ -46,6 +58,8 @@ def parse_matches(event: BeautifulSoup, robot_name: str) -> List[Match]:
         opponent = " ".join(result.text.split()[2:])
         opponent_id = match.find("a")["href"].replace("/history/", "")
         winner = robot_name if "won" in result.text.lower() else opponent
-        parsed_matches.append(Match(opponent, opponent_id, winner))
+        parsed_matches.append(
+            Match(opponent.strip(), opponent_id.strip(), winner.strip())
+        )
 
     return parsed_matches

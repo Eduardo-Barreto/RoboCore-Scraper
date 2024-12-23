@@ -24,16 +24,16 @@ def parse_ranking_data(soup: BeautifulSoup, category: str) -> dict:
             latest_fight = columns[5].text.strip()
 
             robot = Robot(
-                position,
-                score,
-                robot_name,
-                robot_id,
-                team,
-                team_country,
-                total_fights,
-                total_wins,
-                total_losses,
-                latest_fight,
+                position.strip(),
+                score.strip(),
+                robot_name.strip(),
+                robot_id.strip(),
+                team.strip(),
+                team_country.strip(),
+                total_fights.strip(),
+                total_wins.strip(),
+                total_losses.strip(),
+                latest_fight.strip(),
             )
 
             robots.append(robot.to_dict())
